@@ -15,8 +15,10 @@ var (
 )
 
 func main() {
+	//parse our run flags
 	flag.Parse()
 
+	//setup routing
 	r := mux.NewRouter()
 
 	//notice that this route is wide open
@@ -29,6 +31,7 @@ func main() {
 	r.HandleFunc("/healthstatus", HealthCheckHandler)
 	r.HandleFunc("/", RootHandler)
 
+	//our negroni setup
 	n := negroni.New(negroni.NewRecovery())
 	n.Use(negroni.HandlerFunc(middleware.Middleware))
 	n.UseHandler(r)
